@@ -1,11 +1,15 @@
 Operaciones de Auth (JWT):
 1. Register:
+input (Correo y Password)
+output (ok)
+
 Usuario ingresa Correo y password
 Valida datos
 Verifican si usuario existe
 Hashear contraseña
 Guardar Usuario en DB
 Return OK
+
 
 2. Login
 Usuario ingresa Correo y password
