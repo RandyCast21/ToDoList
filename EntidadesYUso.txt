@@ -24,6 +24,7 @@ Casos de Uso:
 - Usuarios:
 1) Registro
 2) Login
+2.1) Login con OAuth
 3) Logout
 4) Recuperar contraseña
 5) Obtener Perfil

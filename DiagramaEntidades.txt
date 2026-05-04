@@ -1,11 +1,30 @@
 Table users {
   id uuid [pk]
+
   username varchar
   email varchar [unique]
-  password_hash varchar
+
+  password_hash varchar [null] 
+
   is_active boolean
+
   created_at timestamp
   updated_at timestamp
+}
+
+Table oauth_accounts {
+  id uuid [pk]
+
+  user_id uuid [not null, ref: > users.id]
+
+  provider varchar // google, github, apple
+  provider_id varchar
+
+  created_at timestamp
+
+  Indexes {
+    (provider, provider_id) [unique]
+  }
 }
 
 Table tasks {
@@ -13,14 +32,14 @@ Table tasks {
 
   owner_id uuid [not null, ref: > users.id]
 
-  parent_id uuid [ref: > tasks.id] // self-relation (árbol)
+  parent_id uuid [ref: > tasks.id]
 
   title varchar
   description text
 
-  priority varchar // low, medium, high
-  difficulty int // 1-5
-  status varchar // todo, in_progress, done
+  priority varchar
+  difficulty int
+  status varchar
 
   depth int
   order_index int
@@ -39,7 +58,7 @@ Table tags {
   created_at timestamp
 
   Indexes {
-    (owner_id, name) [unique] // evita duplicados por usuario
+    (owner_id, name) [unique]
   }
 }
 
