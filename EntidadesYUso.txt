@@ -1,0 +1,74 @@
+Problema a Resolver:
+Necesito hacer un Sistema Profesional para tenerlo en portafolio y conseguir un mejor trabajo
+
+Solución Propuesta:
+Un Sistema donde creas un Proyecto que se subdivide en otras tareas y estas a su vez se subdividen infinitamente (No realmente)
+
+Funciones Requeridas:
+Autenticación - Perfiles Persistentes, CRUD de tareas
+
+Entidades:
+- Usuarios: Son los clientes del Sistema
+Campos: id (UUID), username, email(unique), password_hash, created_at, updated_at, is_active
+
+- Tareas: Son la unidad replicable que puede crear más de ella, y guarda una descripción, prioridad, dificultad. Es un árbol recursivo
+Campos: id (UUID), ownerUser (FK -> User), parent_id (FK -> Task, nullable), title, description, priority (low, medium, high), difficulty (1-5), status (todo, in_progress, done), depth (int), order_index (int), created_at, updated_at
+
+- Tags: Son descripciones para poder organizar la información
+Campos: id (UUID), name (unique), created_at, owner_id (FK -> User)
+
+- TaskTag: Una tabla intermedia entre Tareas y Tags
+Campos: task_id (FK), tag_id (FK)
+
+Casos de Uso:
+- Usuarios:
+1) Registro
+2) Login
+3) Logout
+4) Recuperar contraseña
+5) Obtener Perfil
+
+- Tareas: 
+// CRUD
+1) Crear tarea raíz (Proyecto) ; Crear Proyecto, darle descripción, prioridad y dificultad. Level 0
+2) Crear subtarea ; Añadir Tarea a Proyecto <-> Añadir Tarea a Tarea
+3) Editar tarea
+4) Eliminar tarea 
+
+// Jerarquía
+5) Obtener tarea por id
+6) Obtener árbol completo de tareas
+7) Obtener hijos de una tarea
+8) Obtener ruta (Breadcrumb)
+
+// Gestión
+9) Cambiar status 
+10) Reordenar tareas
+11) Filtrar por prioridad / estado
+
+// Seguridad
+12) Validar ownership?
+
+- Tags:
+1) Crear tag
+2) Obtener tags de Usuarios
+3) Asignar tag a una tarea
+4) Remover tag de tarea
+5) Buscar tareas por tag
+
+- Frontend:
+1) Mostrar todos los Proyectos (Tareas nivel 0) del Usuario
+2) Vista tipo árbol (Expandible)
+3) Crear Subtareas
+4) Cambiar estado
+5) Reordenar Tareas
+
+
+ORDER DE PROGRAMACION:
+1. Auth (JWT)
+2. User
+3. Task CRUD básico
+4. Jerarquía (parent_id)
+5. Tags
+6. Reordenamiento
+7. Árbol
