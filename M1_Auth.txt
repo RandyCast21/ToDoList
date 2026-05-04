@@ -1,0 +1,34 @@
+Operaciones de Auth (JWT):
+1. Register:
+input (Correo y Password)
+output (ok)
+
+Usuario ingresa Correo y password
+Valida datos
+Verifican si usuario existe
+Hashear contraseña
+Guardar Usuario en DB
+Return OK
+
+
+2. Login
+Usuario ingresa Correo y password
+Buscar Usuario en DB
+Si no existe -> Error no existe
+Si existe -> Conparar password con bcrypt
+Comparar password con bcrypt
+Si no coincide -> Error
+Generar JWT
+Responder token + user
+
+
+3. Recuperar contraseña
+Generar token
+Enviar Correo
+Validar token
+Actualizar password
+
+4. Proteger Rutas?
+Verificar JWT
+Si es válido -> req.user
+Si no -> 404

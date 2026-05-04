@@ -1,0 +1,57 @@
+1. Definir que hace
+¿Qué problema resuelve este módulo?
+Auth -> Login/Registro/Sesión
+Users -> CRUD Users
+Payments -> Cobrar/Registro de Pagos
+
+2. Definir entradas y salidas
+¿Qué recibe? (Request)
+¿Qué devuelves? (Response)
+¿Qué necesita de la DB?
+
+input: email + password
+output: token + user
+
+3. Definir flujo lógico
+Escribir el paso a paso
+Ejem. El Usuario manda email y password -> busco usuario -> valida password -> respondo token
+
+4. Separar responsabilidades
+Dividir en las siguientes capas:
+- Routes -> Entradas
+- Controller -> HTTP bridge
+- Service -> Lógica
+- Repository -> DB
+- Middleware -> Filtros/Seguridad
+
+5. Diseñar Errores
+¿Qué pasa si no existe usuario?
+¿Qué pasa si password es incorrecta?
+
+6. Implementar de abajo hacia arriba
+Repos/Service -> Controller -> Routes -> Middleware -> Conectar todo
+
+7. Probar flujo completo
+Casos válidos
+Casos inválidos
+Casos extremos
+
+
+Ejemplo:
+REGISTER
+client → route → controller → service → DB → bcrypt → DB → response
+
+LOGIN
+client → route → controller → service → DB → bcrypt compare → jwt → response
+
+PROTECTED ROUTE
+client → middleware(jwt) → controller → service → DB → response
+
+Mini Algoritmo
+1. Qué hace
+2. Qué entra / qué sale
+3. Flujo lógico
+4. Separar responsabilidades
+5. Manejo de errores
+6. Implementar service → controller → routes
+7. Probar
