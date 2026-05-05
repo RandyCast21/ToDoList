@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model oauth_accounts {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id     String    @db.Uuid
+  provider    String    @db.VarChar
+  provider_id String    @db.VarChar
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+  users       users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([provider, provider_id])
+  @@index([user_id], map: "idx_oauth_user_id")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model tags {
+  id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  owner_id   String      @db.Uuid
+  name       String?     @db.VarChar
+  created_at DateTime?   @default(now()) @db.Timestamptz(6)
+  users      users       @relation(fields: [owner_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  task_tags  task_tags[]
+
+  @@unique([owner_id, name])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model task_tags {
+  task_id String @db.Uuid
+  tag_id  String @db.Uuid
+  tags    tags   @relation(fields: [tag_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  tasks   tasks  @relation(fields: [task_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([task_id, tag_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model tasks {
+  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  owner_id    String         @db.Uuid
+  parent_id   String?        @db.Uuid
+  title       String?        @db.VarChar
+  description String?
+  priority    task_priority?
+  difficulty  Int?
+  status      task_status?
+  depth       Int?
+  order_index Int?
+  created_at  DateTime?      @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime?      @default(now()) @db.Timestamptz(6)
+  task_tags   task_tags[]
+  users       users          @relation(fields: [owner_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  tasks       tasks?         @relation("tasksTotasks", fields: [parent_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  other_tasks tasks[]        @relation("tasksTotasks")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model users {
+  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username       String?          @db.VarChar
+  email          String?          @unique @db.VarChar
+  password_hash  String?          @db.VarChar
+  is_active      Boolean?         @default(true)
+  created_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  oauth_accounts oauth_accounts[]
+  tags           tags[]
+  tasks          tasks[]
+}
+
+enum task_priority {
+  low
+  medium
+  high
+}
+
+enum task_status {
+  todo
+  in_progress
+  done
+}

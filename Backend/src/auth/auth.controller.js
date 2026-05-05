@@ -1,5 +1,4 @@
-import { registerSchema } from "./auth.schema.js";
-import { registerUser } from "./auth.service.js";
+import { registerUser, registerSchema } from "./auth.service.js";
 
 export const register = async (req, res) => {
   try {

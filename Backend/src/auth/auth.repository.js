@@ -1,4 +1,4 @@
-import { db } from "../db/supabase.db.js";
+import { db } from "../db/db.supabase.js";
 
 // Leer
 export const findUserByEmail = async (email) => {
@@ -12,7 +12,7 @@ export const findUserByEmail = async (email) => {
 // Crear
 export const createUser = async (email, passwordHash) => {
   const result = await db.query(
-    "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id, email",
+    "INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email",
     [email, passwordHash],
   );
 

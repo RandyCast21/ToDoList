@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { z } from "zod";
 import { findUserByEmail, createUser } from "./auth.repository.js";
 
 // Registro de usuario
@@ -19,3 +20,9 @@ export const registerUser = async (email, password) => {
 
   return user;
 };
+
+// Validación de Esquema
+export const registerSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
