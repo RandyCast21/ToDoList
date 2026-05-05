@@ -1,20 +1,29 @@
 import { registerUser, registerSchema } from "./auth.service.js";
+import { formatZodError } from "../utils/zodErrorFormatter.js";
+import { ZodError } from "zod";
 
 export const register = async (req, res) => {
   try {
-    // 1. validar input
     const data = registerSchema.parse(req.body);
 
-    // 2. lógica de negocio
     const user = await registerUser(data);
 
-    // 3. respuesta segura
     res.status(201).json({
       message: "Usuario creado",
       user,
     });
 
   } catch (error) {
+
+    // 👇 ERROR DE ZOD
+    if (error instanceof ZodError) {
+      return res.status(400).json({
+        error: "Validation error",
+        details: formatZodError(error),
+      });
+    }
+
+    // 👇 ERROR NORMAL (login, DB, etc)
     res.status(400).json({
       error: error.message,
     });
