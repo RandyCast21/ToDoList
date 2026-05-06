@@ -1,4 +1,4 @@
-import { prisma } from "../db/db.prisma.js";
+import { prisma } from "../../db/db.prisma.js";
 
 // Buscar usuario por email
 export const findUserByEmail = async (email) => {

@@ -5,7 +5,7 @@ import {
   loginSchema,
   refreshTokenService,
 } from "./auth.service.js";
-import { formatZodError } from "../utils/zodErrorFormatter.js";
+import { formatZodError } from "../../utils/zodErrorFormatter.js";
 import { ZodError } from "zod";
 
 ///////////////
