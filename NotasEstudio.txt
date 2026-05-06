@@ -1,0 +1,12 @@
+¿Qué he estado aprendiendo en este Proyecto?
+
+BACKEND GENERAL:
+- La contraseña de DATABASE_URL es de Postgre y no de Supabase
+- dotenv es para poder acceder a las variables de entorno sencillamente en node
+
+BACKEND AUTH:
+- Las contraseñas se guardan mediante un programa de encriptación hash que hace imposible revertir el proceso, y solo se puede llegar al mismo resultado con el mismo valor
+- Al autenticar usuario se crean varios JWT (Json Web Token) que es como una credencial firmada donde se explica que usuario y por cuanto tiempo puede usar el sistema (Se pueden poner más valores)
+- Existen 2 tipos de Tokens. El de corta duración se llama Access Token, y el de larga duración Refresh Token
+- Existen operaciones para mantener activas las sesiones sin tener que volver a autenticar, refrescar access token y rotation refresh token que depende de una db para saber que tokens están "vetados" pero no tener que iniciar sesión
+
