@@ -1,7 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import authRoutes from "./auth/auth.routes.js";
+import authRoutes from "./modules/auth/auth.routes.js";
+import usersRoutes from "./modules/users/users.routes.js";
 
 const app = express();
 
@@ -20,3 +21,4 @@ app.listen(PORT, () => {
 
 // Auth
 app.use("/auth", authRoutes);
+app.use("/users", usersRoutes);
