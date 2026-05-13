@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./modules/auth/auth.routes.js";
 import usersRoutes from "./modules/users/users.routes.js";
+import tasksRoutes from "./modules/tasks/tasks.routes.js";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
-// Auth
+// Rutas
 app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
+app.use("/tasks", tasksRoutes);
